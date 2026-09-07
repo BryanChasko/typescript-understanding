@@ -18,31 +18,34 @@ that do multi-step jobs) you can trust on 4th-and-2.
 
 sister repo: [pythonExamplesWithNewEnglandPatriots](https://github.com/BryanChasko/pythonExamplesWithNewEnglandPatriots) — same team, python lens. this repo is the typescript mirror.
 
-## start here
+## setup and first run
 
-javascript is the language the examples are written in. node is the
-program that runs javascript files. a terminal is the text box where
-you type commands to the computer. a repo is this folder of files;
-the repo root is its top level, where `package.json` (the file that
-lists this course's pieces) lives. npm is the helper that comes with
-node: it fetches other people's code this course needs and runs the
-shortcuts (called scripts) listed in `package.json`. sandboxed means
-running inside a sealed-off box so downloaded code cannot touch your
-machine; docker is the program that builds that box (called a
-container) from the `Dockerfile` in this folder.
+javascript is a programming language: the one built into every web
+browser (buttons, forms, and games on websites run it). node is a
+program that runs javascript files on your own computer instead of
+inside a web page. a terminal is a window where you operate the
+computer by typing commands as text instead of clicking icons. this
+folder of course files is a repo; its top level (the repo root) holds
+`package.json`, a file listing the project's ingredients and named
+shortcut commands (called scripts). npm is the tool bundled with node
+that downloads shared code libraries and runs those shortcuts.
+sandboxed means running inside an isolated box the code cannot escape
+to reach your real files; docker is software that builds such boxes
+(each running box is called a container) from a recipe file, here
+named `Dockerfile`.
 
 ```bash
 docker build -t ts50 .
 docker run -it --rm ts50        # you land at /course inside the box
 node src/00-start/hello.js      # plain javascript. only node needed.
-npx tsx src/00-start/hello.ts   # tsx runs typescript files directly.
-npm run build                   # tsc, the typescript checker, reviews the repo. silence = clean.
-npm test                        # vitest, the test runner, replays each example. 12 tests.
+npx tsx src/00-start/hello.ts   # tsx runs typescript files with no separate conversion step.
+npm run build                   # tsc reads every file's type notes and reports mismatches. silence = clean.
+npm test                        # vitest runs automated checks (tests) verifying each example. 12 tests.
 ```
 
 with node 20+ already on your machine, skip docker: run the same
 four commands here after `npm install` (which downloads the needed
-code once). [docs/setup.md](docs/setup.md) explains each tool once
+code once). [docs/setup.md](docs/setup.md) covers each tool once
 more. then work modules 00 to 07 in order; each opens with the
 javascript version before showing what typescript adds.
 

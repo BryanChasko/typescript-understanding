@@ -1,23 +1,25 @@
 # setup: what runs where, and why
 
-javascript is the language the examples are written in. typescript is
-javascript plus type notes (like `: string`) that a checker reads
-before the code runs.
+javascript is a programming language: the one built into every web
+browser (buttons, forms, and games on websites run it). typescript is
+javascript plus type notes (labels like `: string` stating what kind
+of value something holds) that a checker reads before the code runs.
 
-| tool   | what it is                                                          | why you need it                   |
-| ------ | ------------------------------------------------------------------- | --------------------------------- |
-| node   | the program that runs javascript files                              | nothing runs without it           |
-| npm    | the helper that comes with node; fetches code and runs shortcuts    | downloads what the course needs   |
-| npx    | runs a tool once without installing it permanently                  | `npx tsx ...` runs one file       |
-| tsx    | a tool that runs typescript files directly                          | try ideas without a separate step |
-| tsc    | the typescript checker; reads the type notes and reports mismatches | `npm run build` reviews the repo  |
-| vitest | the test runner; replays each example and reports pass or fail      | `npm test` proves examples behave |
+| tool   | what it is                                                                                   | why you need it                  |
+| ------ | -------------------------------------------------------------------------------------------- | -------------------------------- |
+| node   | a program that runs javascript files on your computer instead of inside a web page           | nothing runs without it          |
+| npm    | the tool bundled with node; downloads shared code libraries and runs named shortcut commands | downloads what the course needs  |
+| npx    | runs a tool once without installing it permanently                                           | `npx tsx ...` runs one file      |
+| tsx    | a tool that runs typescript files with no separate conversion step                           | try ideas immediately            |
+| tsc    | the typescript checker; reads the type notes and reports mismatches                          | `npm run build` reviews the repo |
+| vitest | a program that runs automated checks (called tests) verifying code behaves as expected       | `npm test` proves examples work  |
 
 ## where commands run
 
-a terminal is the text box where you type commands to the computer.
-type them at the repo root: the top level of this folder, where the
-file `package.json` (the list of this course's pieces and shortcuts)
+a terminal is a window where you operate the computer by typing
+commands as text instead of clicking icons. type the course commands
+at the repo root: the top level of this folder, where the file
+`package.json` (the list of this course's ingredients and shortcuts)
 lives. check you are there:
 
 ```bash
@@ -26,10 +28,11 @@ pwd && ls package.json
 
 ## first run: inside a box
 
-`npm install` downloads other people's code, and downloaded code can
-do anything your user can. sandboxed means running inside a sealed-off
-box so it cannot touch your machine; docker is the program that builds
-that box (called a container) from the `Dockerfile` in this folder.
+`npm install` downloads shared code libraries, and downloaded code can
+do anything your user account can. sandboxed means running inside an
+isolated box the code cannot escape to reach your real files; docker is
+software that builds such boxes (each running box is called a
+container) from a recipe file, here named `Dockerfile`.
 
 ```bash
 docker build -t ts50 .
@@ -43,7 +46,8 @@ npm test                         # test runner replays examples. 12 tests.
 
 ## if node 20+ is already on your machine
 
-`node -v` prints the version; you need 20 or higher. then:
+`node -v` prints the version; you need 20 or higher (older versions
+cannot read this course's code style). then:
 
 ```bash
 npm install   # downloads the needed code into node_modules/ (run once; never edit that folder)

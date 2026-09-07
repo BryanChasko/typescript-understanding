@@ -8,6 +8,7 @@ const rings = 3;
 
 console.log(`hello from ${teamName}, rings: ${rings}`);
 
-// the fumble javascript lets through: a string minus a number is NaN.
+// the fumble javascript lets through: a string minus a number is NaN
+// (Not a Number: javascript's answer to impossible math).
 // no error, no warning — just a wrong answer on the scoreboard.
 console.log("Maye minus one:", "Maye" - 1);

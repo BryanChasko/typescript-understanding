@@ -1,10 +1,14 @@
-// module 7 — agentic capstone: typed decomposition + guardrails.
-// js first: a pipeline passing one big untyped `state = {}` between
+// module 7 — capstone (the final put-it-together exercise): typed
+// decomposition (splitting one goal into steps) + guardrails
+// (automatic safety checks). agents here = small AI programs, each
+// doing one job.
+// js first: a pipeline passing one big unchecked `state = {}` between
 // agents. scout writes `state.players`, coach reads `state.plaers` —
 // undefined, discovered during the demo.
 // ts upgrade: `AgentState` fixes the shared shape; each agent's inputs
-// and outputs are typed, so wiring mistakes fail `npm run build`
-// instead of failing on 4th down. trace log included for observability.
+// and outputs are noted, so wiring mistakes fail `npm run build`
+// instead of failing on 4th down. a step-by-step log is included so
+// every failure can be traced.
 
 import { z } from "zod";
 import { roster2004 } from "../data/patriots.js";

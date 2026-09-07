@@ -1,4 +1,6 @@
-// module 3 — complex shapes: arrays, tuples, interfaces, optional + readonly.
+// module 3 — complex shapes: arrays, tuples (short fixed-length lists),
+// interfaces (named descriptions of an object's shape), optional
+// (allowed to be missing) + readonly (not allowed to change).
 // js first: an array of player objects where one row typos `jersy` for
 // `jersey`. `roster[0].jersey` is undefined at runtime; nothing warned
 // when the bad row was created.

@@ -1,10 +1,12 @@
-// module 6 — tsconfig strict + docs/releases + MCP tool shape.
+// module 6 — tsconfig (the file of checker settings) on strict (its
+// pickiest preset) + docs/releases + MCP (the standard AI programs use
+// to offer tools to each other) tool shape.
 // js first: `const data = await res.json()` — data is whatever the
 // network sent. `data.player.namme` is undefined, three layers from
 // where the mistake matters.
-// ts upgrade: strict mode forces the boundary to be typed; zod parses
-// the unknown payload at runtime AND derives the static type, so the
-// same schema guards the MCP tool contract agents call.
+// ts upgrade: strict forces the network boundary to be checked; zod (a
+// library that checks data while the program runs) parses the payload,
+// so the same description guards the tool other programs call.
 
 import { z } from "zod";
 import { roster2004 } from "../data/patriots.js";

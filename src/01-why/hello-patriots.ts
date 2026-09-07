@@ -2,7 +2,7 @@
 // js first (try in node): `"Maye" - 1` answers NaN with no complaint.
 // that is the bug class this whole course kills: wrong-shape values
 // flowing silently until a fan sees garbage on the scoreboard.
-// ts upgrade: annotations make the same mistake a compile error.
+// ts upgrade: notes make the same mistake an error found before anything runs.
 // run: npx tsx src/01-why/hello-patriots.ts
 // then break it: change teamName to a number and run `npm run build`.
 

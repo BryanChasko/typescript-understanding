@@ -1,71 +1,69 @@
 # setup: what runs where, and why
 
-## the 30-second version
+javascript is the language the examples are written in. typescript is
+javascript plus type notes (like `: string`) that a checker reads
+before the code runs.
 
-| word   | what it is                                               | why you need it                             |
-| ------ | -------------------------------------------------------- | ------------------------------------------- |
-| node   | the program that runs javascript outside a browser       | nothing runs without it                     |
-| npm    | node’s package manager; installs libraries, runs scripts | fetches deps (zod, vitest), runs build/test |
-| npx    | runs a one-off tool without installing it globally       | `npx tsx ...` runs one typescript file      |
-| tsx    | runs `.ts` files directly (types erased on the fly)      | try ideas without a compile step            |
-| tsc    | the typescript compiler / spell-checker                  | `npm run build` typechecks the repo         |
-| vitest | the test runner                                          | `npm test` proves the examples behave       |
+| tool   | what it is                                                          | why you need it                   |
+| ------ | ------------------------------------------------------------------- | --------------------------------- |
+| node   | the program that runs javascript files                              | nothing runs without it           |
+| npm    | the helper that comes with node; fetches code and runs shortcuts    | downloads what the course needs   |
+| npx    | runs a tool once without installing it permanently                  | `npx tsx ...` runs one file       |
+| tsx    | a tool that runs typescript files directly                          | try ideas without a separate step |
+| tsc    | the typescript checker; reads the type notes and reports mismatches | `npm run build` reviews the repo  |
+| vitest | the test runner; replays each example and reports pass or fail      | `npm test` proves examples behave |
 
 ## where commands run
 
-your terminal, inside the repo root — the folder containing
-`package.json`. every `npm ...` command in this course assumes that.
-verify you are there:
+a terminal is the text box where you type commands to the computer.
+type them at the repo root: the top level of this folder, where the
+file `package.json` (the list of this course's pieces and shortcuts)
+lives. check you are there:
 
 ```bash
 pwd && ls package.json
 ```
 
-## should you sandbox? yes for your first run
+## first run: inside a box
 
-`npm install` downloads and executes third-party code. this repo’s
-deps are mainstream (typescript, vitest, zod), but the habit should
-be: unknown repo → sandboxed container first. docker keeps rogue
-install scripts off your machine.
-
-### path A — docker (recommended first run)
+`npm install` downloads other people's code, and downloaded code can
+do anything your user can. sandboxed means running inside a sealed-off
+box so it cannot touch your machine; docker is the program that builds
+that box (called a container) from the `Dockerfile` in this folder.
 
 ```bash
 docker build -t ts50 .
 docker run -it --rm ts50
-# now inside the container, at /course:
-npm run build   # typecheck everything (tsc --noEmit, strict on)
-npm test        # run the 12 vitest tests
-node src/00-start/hello.js       # plain js, zero tooling
-npx tsx src/00-start/hello.ts    # same hello, with types
-npx tsx src/01-why/hello-patriots.ts
+# now inside the box, at /course:
+node src/00-start/hello.js       # plain javascript. only node needed.
+npx tsx src/00-start/hello.ts    # same hello, with type notes
+npm run build                    # checker reviews everything. silence = clean.
+npm test                         # test runner replays examples. 12 tests.
 ```
 
-### path B — local node
+## if node 20+ is already on your machine
 
-needs node 20+ (`node -v` to check; anything older will fail on
-`import` syntax and `as const`).
+`node -v` prints the version; you need 20 or higher. then:
 
 ```bash
-npm install   # download deps into node_modules/ (first time only)
-npm run build # typecheck: expect silence = clean
-npm test      # 12 tests, all green
+npm install   # downloads the needed code into node_modules/ (run once; never edit that folder)
+npm run build # checker reviews everything. silence = clean.
+npm test      # 12 tests
 ```
 
 ## what each course command does
 
-- `npm install` — reads `package.json`, downloads deps. run once
-  (again only if deps change). creates `node_modules/`, never edit it.
-- `npm run build` — runs `tsc --noEmit`: checks every type, emits
-  nothing. silence means clean; errors print as `file(line,col)`.
-- `npm test` — runs vitest over `tests/`. each test replays a python
-  repo example and asserts the typescript port matches.
-- `npx tsx <file>` — runs one `.ts` file now. no output files.
+- `npm install` — reads `package.json` and downloads the listed code.
+- `npm run build` — runs the checker over every file without producing
+  output files. errors print as `file(line,column)`; fix the first one
+  first, since one mistake can cause follow-on complaints.
+- `npm test` — runs the files in `tests/`. each one replays an example
+  from the python sister repo and checks the typescript version matches.
+- `npx tsx <file>` — runs one typescript file right away.
 
-## troubleshooting
+## if something fails
 
-- `node: command not found` → use path A, or install node 20+.
-- `npm install` fails on network → retry; container builds need
-  registry access.
-- `tsc` errors after editing → read the first error only, fix, rerun.
-  one bad annotation can cascade.
+- `node: command not found` — node is not installed; use the docker box.
+- `npm install` fails on network — it needs the internet to download;
+  retry.
+- checker errors after you edit — read the first error, fix, rerun.

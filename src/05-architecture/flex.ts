@@ -1,8 +1,11 @@
-// module 5 — literals, enums, generics, utility types.
+// module 5 — literals (exact allowed values), enums (named sets of
+// choices), generics (one definition that works for many kinds),
+// utility types (ready-made shape transformers).
 // js first: `const POSITIONS = ["QB", "RB", "WR"]` plus discipline —
-// nothing stops `setStatus("injureed")`. teams add runtime validators
-// or Object.freeze and hope reviewers catch the rest.
-// ts upgrade: `"active" | "injured"` rejects the typo at compile time;
+// nothing stops `setStatus("injureed")`. teams add extra checking code
+// or Object.freeze (a command that locks an object) and hope reviewers
+// catch the rest.
+// ts upgrade: `"active" | "injured"` rejects the typo before running;
 // generics + utilities derive new shapes instead of redeclaring them.
 
 import type { Player } from "../data/patriots.js";

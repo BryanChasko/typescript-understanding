@@ -1,4 +1,6 @@
-// module 2 — primitives, inference, any vs unknown vs never.
+// module 2 — primitives (the basic kinds: text, numbers, true/false),
+// inference (leaving a note off and letting the checker fill it in),
+// any vs unknown vs never (three special notes for risky values).
 // js first: `function square(n) { return n ** 2 }` works, but so does
 // `square("cat")` — answer NaN, no complaint. every caller must just
 // know n is a number, and nothing checks.

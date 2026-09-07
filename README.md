@@ -13,33 +13,38 @@
 javascript lets you fumble at runtime. typescript blows the whistle
 before the snap. this is harvard cs50 energy with a belichick hoodie:
 every concept lands on real patriots data, and every module ends with
-the agentic payoff — typed tools, guarded calls, agents you can trust
-on 4th-and-2.
+the agentic payoff — typed tools, guarded calls, agents (AI programs
+that do multi-step jobs) you can trust on 4th-and-2.
 
 sister repo: [pythonExamplesWithNewEnglandPatriots](https://github.com/BryanChasko/pythonExamplesWithNewEnglandPatriots) — same team, python lens. this repo is the typescript mirror.
 
-## start here (never touched npm? read this first)
+## start here
 
-**npm** is node's package manager: it downloads libraries and runs
-the repo's scripts. **node** runs javascript. every command below
-runs in your terminal, inside this folder (where `package.json`
-lives). first run should be sandboxed — `npm install` executes
-third-party code, so newcomers start in docker:
+javascript is the language the examples are written in. node is the
+program that runs javascript files. a terminal is the text box where
+you type commands to the computer. a repo is this folder of files;
+the repo root is its top level, where `package.json` (the file that
+lists this course's pieces) lives. npm is the helper that comes with
+node: it fetches other people's code this course needs and runs the
+shortcuts (called scripts) listed in `package.json`. sandboxed means
+running inside a sealed-off box so downloaded code cannot touch your
+machine; docker is the program that builds that box (called a
+container) from the `Dockerfile` in this folder.
 
 ```bash
 docker build -t ts50 .
-docker run -it --rm ts50        # you land at /course inside the container
-node src/00-start/hello.js      # plain js. only node needed. start here.
-npx tsx src/00-start/hello.ts   # same hello, with types
-npm run build                   # tsc spell-checks the repo (silence = clean)
-npm test                        # 12 tests, all green
+docker run -it --rm ts50        # you land at /course inside the box
+node src/00-start/hello.js      # plain javascript. only node needed.
+npx tsx src/00-start/hello.ts   # tsx runs typescript files directly.
+npm run build                   # tsc, the typescript checker, reviews the repo. silence = clean.
+npm test                        # vitest, the test runner, replays each example. 12 tests.
 ```
 
-already have node 20+ and trust the deps? run the same commands
-locally after `npm install`. full what/where/why in
-[docs/setup.md](docs/setup.md) — then work modules 00 to 07 in order.
-each one opens with the javascript version first and shows what
-typescript adds.
+with node 20+ already on your machine, skip docker: run the same
+four commands here after `npm install` (which downloads the needed
+code once). [docs/setup.md](docs/setup.md) explains each tool once
+more. then work modules 00 to 07 in order; each opens with the
+javascript version before showing what typescript adds.
 
 ## the course
 

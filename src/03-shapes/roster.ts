@@ -1,4 +1,9 @@
 // module 3 — complex shapes: arrays, tuples, interfaces, optional + readonly.
+// js first: an array of player objects where one row typos `jersy` for
+// `jersey`. `roster[0].jersey` is undefined at runtime; nothing warned
+// when the bad row was created.
+// ts upgrade: `interface Player` fixes the shape once; every row and
+// every access is checked against it.
 // ports basic_loops_dictionaries_patriots_legends.py + file-io sorting example.
 
 import {

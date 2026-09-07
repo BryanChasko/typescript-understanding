@@ -1,5 +1,9 @@
 // module 4 — functions + control-flow safety.
-// unions, intersections, narrowing, guards.
+// js first: `if (result.status === "sucess")` — one typo and the branch
+// never runs. the function returns undefined, the caller guesses why.
+// ts upgrade: `status: "success" | "error"` makes the typo a compile
+// error, and the `never` default fails the build if a variant is new
+// but unhandled.
 // ports basic_command_line_arguments_goat.py (argv handling).
 
 export type PlayResult =

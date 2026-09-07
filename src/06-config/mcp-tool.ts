@@ -1,6 +1,10 @@
 // module 6 — tsconfig strict + docs/releases + MCP tool shape.
-// strict:true is the default in modern scaffolds. at js boundaries
-// (csv, fetch, argv) validate unknown input with zod instead of `any`.
+// js first: `const data = await res.json()` — data is whatever the
+// network sent. `data.player.namme` is undefined, three layers from
+// where the mistake matters.
+// ts upgrade: strict mode forces the boundary to be typed; zod parses
+// the unknown payload at runtime AND derives the static type, so the
+// same schema guards the MCP tool contract agents call.
 
 import { z } from "zod";
 import { roster2004 } from "../data/patriots.js";

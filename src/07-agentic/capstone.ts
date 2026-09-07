@@ -1,7 +1,10 @@
 // module 7 — agentic capstone: typed decomposition + guardrails.
-// scout -> stats -> coach pipeline over patriots data, with
-// human-in-the-loop approval, self-reflection retry, deterministic
-// fallback, and an observable trace of every step.
+// js first: a pipeline passing one big untyped `state = {}` between
+// agents. scout writes `state.players`, coach reads `state.plaers` —
+// undefined, discovered during the demo.
+// ts upgrade: `AgentState` fixes the shared shape; each agent's inputs
+// and outputs are typed, so wiring mistakes fail `npm run build`
+// instead of failing on 4th down. trace log included for observability.
 
 import { z } from "zod";
 import { roster2004 } from "../data/patriots.js";

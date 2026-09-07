@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import {
   calculateWeightedScore,
@@ -30,6 +31,15 @@ import {
   statsWithFallback,
 } from "../src/07-agentic/capstone.js";
 import { legends } from "../src/data/patriots.js";
+
+describe("00 start (plain js hello runs on node alone)", () => {
+  it("hello.js prints the team with zero tooling", () => {
+    const out = execFileSync("node", ["src/00-start/hello.js"], {
+      encoding: "utf8",
+    });
+    expect(out).toContain("New England Patriots");
+  });
+});
 
 describe("02 basics (brady vs jones calculator port)", () => {
   it("weighted scores match python: -14 and -134", () => {

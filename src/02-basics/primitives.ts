@@ -1,4 +1,8 @@
 // module 2 — primitives, inference, any vs unknown vs never.
+// js first: `function square(n) { return n ** 2 }` works, but so does
+// `square("cat")` — answer NaN, no complaint. every caller must just
+// know n is a number, and nothing checks.
+// ts upgrade: `(n: number)` writes the contract down, tsc enforces it.
 // ports basic_function_tom_brady_versus_mac_jones_calculator.py.
 
 export function square(n: number): number {

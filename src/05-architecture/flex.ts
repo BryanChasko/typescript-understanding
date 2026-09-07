@@ -1,4 +1,9 @@
 // module 5 — literals, enums, generics, utility types.
+// js first: `const POSITIONS = ["QB", "RB", "WR"]` plus discipline —
+// nothing stops `setStatus("injureed")`. teams add runtime validators
+// or Object.freeze and hope reviewers catch the rest.
+// ts upgrade: `"active" | "injured"` rejects the typo at compile time;
+// generics + utilities derive new shapes instead of redeclaring them.
 
 import type { Player } from "../data/patriots.js";
 

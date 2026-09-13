@@ -119,3 +119,160 @@ describe("07 capstone (agentic loop)", () => {
     expect(fourthDownGate(base, false).approved).toBe(false);
   });
 });
+
+// --- appended: bootcamp concept coverage ---
+import { logRoster } from "../src/02-basics/primitives.js";
+import {
+  assertIsPlayer,
+  describeFromContext,
+  formatPlayer,
+  weightedScorer,
+} from "../src/04-functions/playbook.js";
+import {
+  bradyLabel,
+  injuredUnknownJersey,
+} from "../src/05-architecture/flex.js";
+import { RosterPlayer } from "../src/08-classes/roster-oop.js";
+import {
+  fetchFromRoster,
+  firstName,
+  loadMany,
+  loadPlayer,
+} from "../src/09-async/data-layer.js";
+import {
+  migrateLegacyPlayer,
+  narrowToPlayer,
+} from "../src/10-external/interop.js";
+import { structuralName, toNamed } from "../src/11-advanced/type-level.js";
+import {
+  filterByStatus,
+  makePlayer,
+  topScorer,
+  type StatsSource,
+} from "../src/13-testing/testable.js";
+import { STRICT_TSCONFIG_SNIPPET } from "../src/12-tooling/tooling-notes.js";
+import { roster2004 } from "../src/data/patriots.js";
+
+describe("02 basics (void)", () => {
+  it("logRoster returns nothing meaningful (void)", () => {
+    expect(logRoster(roster2004)).toBeUndefined();
+  });
+});
+
+describe("04 functions (overloads, call sig, this, assertion)", () => {
+  it("overloaded formatPlayer handles 1 and 2 args", () => {
+    expect(formatPlayer("Tom Brady")).toBe("Tom Brady");
+    expect(formatPlayer("Tom Brady", "QB")).toBe("Tom Brady — QB");
+  });
+  it("call signature value computes a weighted score", () => {
+    expect(weightedScorer(50, 8)).toBe(-14);
+  });
+  it("this-typed fn reads its bound context", () => {
+    expect(describeFromContext.call({ team: "NE" }, "Tom Brady")).toContain(
+      "NE",
+    );
+  });
+  it("assertion function narrows or throws", () => {
+    const good: unknown = roster2004[0];
+    expect(() => assertIsPlayer(good)).not.toThrow();
+    expect(() => assertIsPlayer({ name: "x" })).toThrow();
+  });
+});
+
+describe("05 architecture (template literal + custom utility)", () => {
+  it("template literal value and nullable player", () => {
+    expect(bradyLabel).toBe("#12 Tom Brady");
+    expect(injuredUnknownJersey.jersey).toBeNull();
+  });
+});
+
+describe("08 classes (oop)", () => {
+  it("instantiate, describe, getter/setter, subclass, static", () => {
+    const before = RosterPlayer.rostered();
+    const p = new RosterPlayer("Tom Brady", "QB");
+    expect(p.describe()).toContain("QB");
+    expect(p.status).toBe("active");
+    p.status = "injured";
+    expect(p.status).toBe("injured");
+    expect(p.label()).toContain("Tom Brady");
+    expect(RosterPlayer.rostered()).toBe(before + 1);
+    const factory = RosterPlayer.fromPlayer({
+      team: "NE",
+      id: 2,
+      name: "Corey Dillon",
+      position: "RB",
+      college: "Washington",
+      status: "active",
+    });
+    expect(factory.position).toBe("RB");
+  });
+});
+
+describe("09 async (promise typing, injected fetch, error path)", () => {
+  it("awaits injected fetch and resolves a Player", async () => {
+    const brady = await fetchFromRoster(1);
+    expect(brady.name).toBe("Tom Brady");
+  });
+  it("Promise.all returns typed array", async () => {
+    const many = await loadMany([1, 2, 3]);
+    expect(many).toHaveLength(3);
+    expect(firstName(many)).toBe("Tom Brady");
+  });
+  it("error path returns a Result failure, not a throw", async () => {
+    const missing = await loadPlayer(999);
+    expect(missing.ok).toBe(false);
+    if (!missing.ok) expect(missing.error).toContain("999");
+    const ok = await loadPlayer(1);
+    expect(ok.ok).toBe(true);
+  });
+});
+
+describe("10 external (interop guard)", () => {
+  it("narrows a legacy payload to Player and rejects junk", () => {
+    const migrated = migrateLegacyPlayer({
+      team: "NE",
+      id: 1,
+      name: "Tom Brady",
+      position: "QB",
+      college: "Michigan",
+      status: "active",
+    });
+    expect(migrated.name).toBe("Tom Brady");
+    expect(() => narrowToPlayer({ id: "nope" })).toThrow();
+  });
+});
+
+describe("11 advanced (conditional/infer + structural)", () => {
+  it("structural typing assigns by shape", () => {
+    expect(toNamed({ name: "Deion Branch" }).name).toBe("Deion Branch");
+    expect(structuralName).toBe("Deion Branch");
+  });
+});
+
+describe("12 tooling (snippet constants compile and export)", () => {
+  it("strict tsconfig snippet mentions the key flags", () => {
+    expect(STRICT_TSCONFIG_SNIPPET).toContain("noUncheckedIndexedAccess");
+    expect(STRICT_TSCONFIG_SNIPPET).toContain("exactOptionalPropertyTypes");
+  });
+});
+
+describe("13 testing (subject: fixture + injected mock)", () => {
+  it("makePlayer builds a complete Player and honors overrides", () => {
+    const p = makePlayer();
+    expect(p.team).toBe("NE");
+    expect(p.name).toBe("Tom Brady");
+    const rb = makePlayer({ name: "Corey Dillon", position: "RB", jersey: 28 });
+    expect(rb.jersey).toBe(28);
+    const noJersey = makePlayer({ name: "Rohan Davey" });
+    expect(noJersey.jersey).toBeUndefined(); // base fixture has no jersey
+    expect("jersey" in noJersey).toBe(false); // truly absent, not undefined-valued
+  });
+  it("filterByStatus is pure and typed", () => {
+    expect(filterByStatus(roster2004, "injured").length).toBeGreaterThan(0);
+  });
+  it("topScorer uses an injected mock dependency", () => {
+    const mock: StatsSource = { scoreFor: (id) => (id === 3 ? 99 : 1) };
+    const best = topScorer(roster2004, mock);
+    expect(best?.id).toBe(3);
+  });
+});

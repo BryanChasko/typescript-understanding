@@ -46,3 +46,13 @@ if (process.argv[1]?.endsWith("primitives.ts")) {
     `jones 2023: ${calculateWeightedScore(jones2023.td, jones2023.int)}`,
   ); // -134
 }
+
+// --- appended: void ---
+// void: the function returns nothing meaningful (callers ignore its result).
+// contrast: never = never returns at all (throws/loops); undefined = a real
+// value you can assign and inspect. void is "i ran for effect, not for output".
+import type { Player } from "../data/patriots.js";
+
+export function logRoster(players: readonly Player[]): void {
+  for (const p of players) console.log(`${p.name} (${p.position})`);
+}

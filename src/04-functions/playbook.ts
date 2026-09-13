@@ -61,3 +61,42 @@ export function goatFromArgs(argv: string[]): string {
   if (names.length > 2) throw new Error("first or first-and-last only");
   return `the goat is ${names.join(" ")}`;
 }
+
+// --- appended: overloads, call signatures, this typing, assertion functions ---
+import type { Player } from "../data/patriots.js";
+
+// function overloads: multiple public signatures, one hidden implementation.
+// callers see the precise shape; the impl signature is not directly callable.
+export function formatPlayer(name: string): string;
+export function formatPlayer(name: string, position: string): string;
+export function formatPlayer(name: string, position?: string): string {
+  return position ? `${name} — ${position}` : name;
+}
+
+// call signature: an interface describing a callable value (not an object).
+export interface Scorer {
+  (touchdowns: number, interceptions: number): number;
+}
+export const weightedScorer: Scorer = (td, int) => td - int ** 2;
+
+// this typing: `this` is a compile-only first parameter, erased at runtime.
+export function describeFromContext(
+  this: { team: string },
+  name: string,
+): string {
+  return `${name} plays for ${this.team}`;
+}
+
+// assertion function: narrows by throwing. contrast with isApiError above —
+// a guard returns boolean and narrows inside an if; an assertion throws and
+// narrows every line after the call, no branch needed.
+export function assertIsPlayer(x: unknown): asserts x is Player {
+  if (
+    typeof x !== "object" ||
+    x === null ||
+    typeof (x as Player).name !== "string" ||
+    (x as Player).team !== "NE"
+  ) {
+    throw new Error("value is not a Player");
+  }
+}

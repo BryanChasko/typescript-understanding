@@ -57,3 +57,32 @@ export const brady = {
   college: "Michigan",
   status: "active",
 } satisfies Player;
+
+// --- appended: mapped types, template literal types, hand-authored utility ---
+
+// mapped type: iterate keys of Player, remap each value to boolean.
+export type PlayerFlags = { [K in keyof Player]: boolean };
+
+// mapped type with modifiers: -readonly strips readonly, ? adds optional.
+// this is the machinery behind built-ins like Partial and Mutable.
+export type MutablePartialPlayer = {
+  -readonly [K in keyof Player]?: Player[K];
+};
+
+// template literal type: build string types from other types.
+export type JerseyLabel = `#${number} ${string}`;
+export const bradyLabel: JerseyLabel = "#12 Tom Brady";
+
+// custom utility authored by hand: this is how you build your own
+// Pick/Partial-style helper — every field made nullable.
+export type Nullable<T> = { [K in keyof T]: T[K] | null };
+export type NullablePlayer = Nullable<Player>;
+export const injuredUnknownJersey: NullablePlayer = {
+  team: "NE",
+  id: 5,
+  name: "Tedy Bruschi",
+  position: "LB",
+  college: "Arizona",
+  jersey: null,
+  status: "injured",
+};

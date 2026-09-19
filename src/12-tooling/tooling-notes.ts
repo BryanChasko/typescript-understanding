@@ -12,15 +12,19 @@
 
 // why: type-aware linting catches unhandled promises and unsafe any that
 // the compiler alone permits.
-export const ESLINT_CONFIG = `{
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "@typescript-eslint/no-floating-promises": "error",
-    "@typescript-eslint/no-explicit-any": "warn"
+export const ESLINT_CONFIG = `import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  {
+    rules: {
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-explicit-any": "warn"
+    }
   }
-}`;
+);`;
 
 // why: one formatter, zero style arguments in review.
 export const PRETTIER_CONFIG = `{
